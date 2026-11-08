@@ -1,0 +1,21 @@
+[project]
+name = "kickstart"
+version = "0.1.0"
+description = "Python Kick-Start, Task 1: environment and project boilerplate"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+# TODO (AC1, AC2): add the development tools with uv. This creates the [dependency-groups] table:
+#
+#     uv add --dev ruff mypy pytest
+#
+# TODO (AC2): configure the tools below. The acceptance tests in tests/acceptance/test_ac2_tooling_config.py
+# check for these tables; use the Python Kick-Start task window for a reference configuration.
+#
+#   [tool.ruff]                      line-length, target-version = "py312" (or newer)
+#   [tool.ruff.lint]                 select = [...]  (at least "E", "F", "I"; "B", "UP", "N", "S", "ASYNC" are recommended)
+#   [tool.ruff.lint.per-file-ignores] "tests/*" = ["S101"]   (allow plain `assert` in tests when "S" is enabled)
+#   [tool.ruff.format]               quote-style = "double"
+#   [tool.mypy]                      strict = true
+#   [tool.pytest.ini_options]        testpaths = ["tests"]
