@@ -56,14 +56,13 @@ Common problems:
 
 3. Set up the virtual environment (section 1), then create a branch: `git switch -c solution`.
 4. Search for `TODO` to find everything you have to implement: `grep -rn "TODO" . --exclude-dir=.venv --exclude-dir=.git --exclude=README.md`.
-5. Commit small steps. The GitHub Actions workflow in `.github/workflows/ci.yml` runs the same checks as `make check`
-   on every push to your fork, so you can see your progress there too.
+5. Commit small steps and run `make check` before every push, so you always know which criteria are done.
 6. Keep the acceptance tests in `tests/acceptance/` unchanged: they are the definition of "done" for each
    acceptance criterion. Write your own tests next to them.
 
 ## 3. Task description
 
-Bootstrap a reproducible, strictly-typed Python project skeleton. Every later task builds on this layout, so the goal is a clean machine-to-machine setup (one command to install, one command to lint, one command to test) and a folder structure that keeps business logic independent of any web framework. A small, tested domain function proves the whole toolchain works end to end. You work in a fork of the template repository: it ships the acceptance tests, a `Makefile` and CI, and leaves the project configuration and the code for you to write. Set up the virtual environment first, before you edit anything.
+Bootstrap a reproducible, strictly-typed Python project skeleton. Every later task builds on this layout, so the goal is a clean machine-to-machine setup (one command to install, one command to lint, one command to test) and a folder structure that keeps business logic independent of any web framework. A small, tested domain function proves the whole toolchain works end to end. You work in a fork of the template repository: it ships the acceptance tests and a `Makefile`, and leaves the project configuration and the code for you to write. Set up the virtual environment first, before you edit anything.
 
 ## 4. Acceptance criteria
 
@@ -79,7 +78,6 @@ Bootstrap a reproducible, strictly-typed Python project skeleton. Every later ta
 | `.python-version` | provided | pins the Python version for uv (3.14) |
 | `pyproject.toml` | **TODO (AC 1, AC 2)** | only the `[project]` table exists: add dev tools and configure Ruff, Mypy and pytest |
 | `Makefile` | provided | `make setup`, `make lint`, `make typecheck`, `make test`, `make check` |
-| `.github/workflows/ci.yml` | provided | runs the same checks on every push to your fork |
 | `config/`, `domain/`, `api/` | **TODO (AC 3)** | create these packages (each with `__init__.py`); `domain/` must not import any framework |
 | `domain/pricing.py` | **TODO (AC 4)** | implement `apply_discount(price: Decimal, percent: int) -> Decimal` |
 | `tests/test_pricing.py` | provided | the tests your function has to satisfy; add your own parametrized tests beside it |
@@ -124,7 +122,7 @@ Run everything with `make check`. At the start it fails on purpose; it is green 
 **Quality tooling**
 
 - Ruff: linter, import sorter and formatter in one fast tool
-- Mypy (strict) or Pyright: pick one as the CI gate; Pylance/Pyright gives faster editor feedback
+- Mypy (strict) or Pyright: pick one as the type-check gate in `make check`; Pylance/Pyright gives faster editor feedback
 - pytest + pytest-cov: tests and coverage; see the testing topic
 - pre-commit (optional): runs Ruff and Mypy before each commit
 
@@ -164,6 +162,6 @@ Topics from the Python Kick-Start roadmap for this section:
 
 ## Definition of done
 
-- [ ] `make check` is green locally and in the CI of your fork
+- [ ] `make check` is green
 - [ ] `uv.lock` and your `pyproject.toml` configuration are committed, `.venv` is not
 - [ ] Stretch: add a second pure function to `/domain` with its own parametrized tests
