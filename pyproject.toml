@@ -11,7 +11,8 @@ dependencies = []
 #     uv add --dev ruff mypy pytest
 #
 # TODO (AC2): configure the tools below. The acceptance tests in tests/acceptance/test_ac2_tooling_config.py
-# check for these tables; use the Python Kick-Start task window for a reference configuration.
+# check for these tables. Docs: https://docs.astral.sh/ruff/configuration/ and
+# https://mypy.readthedocs.io/en/stable/config_file.html
 #
 #   [tool.ruff]                      line-length, target-version = "py312" (or newer)
 #   [tool.ruff.lint]                 select = [...]  (at least "E", "F", "I"; "B", "UP", "N", "S", "ASYNC" are recommended)
