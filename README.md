@@ -5,8 +5,8 @@
 
 # Practical Task 1: Environment & Project Boilerplate Setup
 
-> Part of **Python Kick-Start**: Section 1: Foundational Knowledge & Engineering Practices (4–5 Days). This repository is a **forkable template**:
-> fork it, clone your fork, and implement everything marked `TODO` until all acceptance tests pass.
+> Part of **Python Kick-Start**: Section 1: Foundational Knowledge & Engineering Practices (4–5 Days). This repository is a **forkable starting point**:
+> fork it, clone your fork, and build the task.
 
 ## 1. Set up your virtual environment first
 
@@ -24,7 +24,7 @@ uv sync
 uv add --dev ruff mypy pytest
 uv run python --version
 
-# then run every acceptance check (they fail until you finish the task)
+# then lint, type-check and test your work
 make check
 ```
 
@@ -55,51 +55,28 @@ Common problems:
    ```
 
 3. Set up the virtual environment (section 1), then create a branch: `git switch -c solution`.
-4. Search for `TODO` to find everything you have to implement: `grep -rn "TODO" . --exclude-dir=.venv --exclude-dir=.git --exclude=README.md`.
-5. Commit small steps and run `make check` before every push, so you always know which criteria are done.
-6. Keep the acceptance tests in `tests/acceptance/` unchanged: they are the definition of "done" for each
-   acceptance criterion. Write your own tests next to them.
+4. Build the task step by step and commit small steps. Run `make check` before every push so you always know where you stand.
 
 ## 3. Task description
 
-Bootstrap a reproducible, strictly-typed Python project skeleton. Every later task builds on this layout, so the goal is a clean machine-to-machine setup (one command to install, one command to lint, one command to test) and a folder structure that keeps business logic independent of any web framework. A small, tested domain function proves the whole toolchain works end to end. You work in a fork of the template repository: it ships the acceptance tests and a `Makefile`, and leaves the project configuration and the code for you to write. Set up the virtual environment first, before you edit anything.
+Bootstrap a reproducible, strictly-typed Python project skeleton. Every later task builds on this layout, so the goal is a clean machine-to-machine setup (one command to install, one command to lint, one command to test) and a folder structure that keeps business logic independent of any web framework. A small, tested domain function proves the whole toolchain works end to end. You start from a nearly empty fork of the template repository (see below) and create the configuration, the packages and the code yourself. Set up the virtual environment first, before you edit anything.
 
-## 4. Acceptance criteria
+## 4. What already exists in this repository
 
-- [ ] **AC 1**: Initialize an isolated Python 3.12+ environment using `uv`.
-- [ ] **AC 2**: Configure `pyproject.toml` with `Ruff` linter rules and `Mypy` strict type checks.
-- [ ] **AC 3**: Create directory structure separating `/config`, `/domain`, `/api`, and `/tests`.
-- [ ] **AC 4**: Add one pure function in `/domain` with parametrized `pytest` tests; `ruff check`, `ruff format --check`, `mypy .` and `pytest` all pass from a clean clone.
+- `.python-version`: pins Python 3.14 for uv
+- `pyproject.toml`: only the `[project]` table (name, version, `requires-python >= 3.12`, no dependencies)
+- `Makefile`: `make setup`, `make lint`, `make typecheck`, `make test`, `make check` and `make fmt`; they work once you have added the tools and your first tests
+- `.gitignore` for Python projects (`.venv`, caches, `.env`)
 
-## 5. What the template gives you, and what is yours
+Everything else is yours to create. Until you have added the tools and written your first Python files and tests,
+`make typecheck` and `make test` fail (Mypy and pytest find nothing to check): that is expected.
 
-| Path | State | Purpose |
-|---|---|---|
-| `.python-version` | provided | pins the Python version for uv (3.14) |
-| `pyproject.toml` | **TODO (AC 1, AC 2)** | only the `[project]` table exists: add dev tools and configure Ruff, Mypy and pytest |
-| `Makefile` | provided | `make setup`, `make lint`, `make typecheck`, `make test`, `make check` |
-| `config/`, `domain/`, `api/` | **TODO (AC 3)** | create these packages (each with `__init__.py`); `domain/` must not import any framework |
-| `domain/pricing.py` | **TODO (AC 4)** | implement `apply_discount(price: Decimal, percent: int) -> Decimal` |
-| `tests/test_pricing.py` | provided | the tests your function has to satisfy; add your own parametrized tests beside it |
-| `tests/acceptance/` | provided, do not edit | one file per acceptance criterion |
+## 5. What you need to do (acceptance criteria)
 
-### How the acceptance tests map to the criteria
-
-| Criterion | Checked by |
-|---|---|
-| AC 1 | `tests/acceptance/test_ac1_environment.py`: Python 3.12+, running inside a virtual environment, `uv.lock` committed, `.venv` ignored |
-| AC 2 | `tests/acceptance/test_ac2_tooling_config.py`: dev group, Ruff rules, Mypy `strict = true`, pytest `testpaths` |
-| AC 3 | `tests/acceptance/test_ac3_structure.py`: the four packages exist, `/domain` imports no framework |
-| AC 4 | `tests/test_pricing.py` and `tests/acceptance/test_ac4_quality_gates.py`: `ruff check`, `ruff format --check` and `mypy .` all pass |
-
-Run everything with `make check`. At the start it fails on purpose; it is green when you are done.
-
-### `apply_discount` contract
-
-- `apply_discount(Decimal("100.00"), 0) == Decimal("100.00")`
-- `apply_discount(Decimal("19.99"), 10) == Decimal("17.99")` (round to 2 decimal places with `quantize`)
-- A `percent` outside `0..100` raises `ValueError`
-- It is a pure function: no I/O, no globals, no framework imports
+- [ ] **AC 1**: Create the virtual environment with `uv` (Python 3.12+; 3.14 is pinned), add `ruff`, `mypy` and `pytest` as development dependencies, and commit the generated `uv.lock`.
+- [ ] **AC 2**: Configure `pyproject.toml`: Ruff (line length, `target-version`, lint rules including at least `E`, `F` and `I`, and the formatter) and Mypy with `strict = true`; point pytest at the `tests` directory.
+- [ ] **AC 3**: Create the directory structure separating `/config`, `/domain`, `/api` and `/tests`, each an importable package; `/domain` imports no web or database framework.
+- [ ] **AC 4**: Add one pure function in `/domain` with parametrized `pytest` tests in `/tests`; `make check` (Ruff, Ruff format check, Mypy strict, pytest) passes from a clean clone.
 
 ## 6. Tech stack requirements
 
@@ -162,6 +139,6 @@ Topics from the Python Kick-Start roadmap for this section:
 
 ## Definition of done
 
+- [ ] every acceptance criterion above is met
 - [ ] `make check` is green
-- [ ] `uv.lock` and your `pyproject.toml` configuration are committed, `.venv` is not
-- [ ] Stretch: add a second pure function to `/domain` with its own parametrized tests
+- [ ] `uv.lock` and your `pyproject.toml` configuration are committed; `.venv` is not
